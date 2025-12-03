@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WonderWorld Amusement Park</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <style>
+    :root {
+      --primary-color: #ff7e5f;
+      --secondary-color: #feb47b;
+      --accent-color: #00bcd4;
+      --dark-bg: #050816;
+      --light-bg: #fdfdfd;
+      --dark-card: #111827;
+      --light-card: #ffffff;
+      --text-light: #f8fafc;
+      --text-dark: #1f2933;
+      --nav-height: 80px;
+      --radius-lg: 24px;
+      --transition-fast: 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #ffe3c3 0, #fff8ee 50%, #fdfdfd 100%);
+      color: var(--text-dark);
+      scroll-behavior: smooth;
+    }
+
+    body.dark-mode {
+      background: radial-gradient(circle at top, #050816 0, #020617 40%, #000 100%);
+      color: var(--text-light);
+    }
+
+    a {
+      text-decoration: none;
+      transition: color var(--transition-fast), transform var(--transition-fast);
+    }
+
+    img {
+      border-radius: 16px;
+      object-fit: cover;
+    }
+
+    /* Navbar */
+    .navbar {
+      height: var(--nav-height);
+      backdrop-filter: blur(12px);
+      background: linear-gradient(90deg, rgba(5,8,22,0.9), rgba(19,78,74,0.9));
+    }
+    .navbar-brand {
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      font-size: 1.6rem;
+      color: #fff !important;
+      text-transform: uppercase;
+    }
+    .navbar-nav .nav-link {
+      color: #e2e8f0 !important;
+      font-weight: 500;
+      margin: 0 0.35rem;
+      position: relative;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .navbar-nav .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      bottom: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      transition: all var(--transition-fast);
+      transform: translateX(-50%);
+    }
+    .navbar-nav .nav-link:hover::after,
+    .navbar-nav .nav-link.active::after {
+      width: 60%;
+    }
+
+    /* Dark/Light Toggle Switch */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .form-switch .form-check-input {
+      cursor: pointer;
+      background-color: #0f172a;
+      border-color: #64748b;
+    }
+    .form-switch .form-check-input:checked {
+      background-color: #facc15;
+      border-color: #fbbf24;
+    }
+
+    /* Generic section styling */
+    section {
+      padding: 80px 0;
+      position: relative;
+    }
+    .section-title {
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-size: 2.4rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .section-subtitle {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      color: #4b5563;
+      font-size: 0.95rem;
+    }
+    body.dark-mode .section-subtitle {
+      color: #9ca3af;
+    }
+
+    /* Hero Section */
+    #hero {
+      padding-top: calc(var(--nav-height) + 40px);
+      padding-bottom: 100px;
+    }
+    .hero-wrapper {
+      border-radius: 40px;
+      background: radial-gradient(circle at top left, rgba(255,255,255,0.3), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(56,189,248,0.3), transparent 60%);
+      padding: 40px 30px;
+      box-shadow: 0 30px 80px rgba(15,23,42,0.35);
+      position: relative;
+      overflow: hidden;
+    }
+    body.dark-mode .hero-wrapper {
+      background: radial-gradient(circle at top left, rgba(248,250,252,0.05), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(56,189,248,0.25), transparent 70%);
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      background: rgba(15,23,42,0.7);
+      color: #e5e7eb;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+    .hero-title {
+      font-family: 'Fredoka', cursive;
+      font-weight: 700;
+      font-size: 3rem;
+      margin-top: 1.2rem;
+      line-height: 1.15;
+    }
+    .hero-highlight {
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+    .hero-text {
+      margin-top: 1.2rem;
+      font-size: 1.05rem;
+      max-width: 500px;
+    }
+    .hero-cta .btn {
+      border-radius: 999px;
+      padding: 0.85rem 1.7rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    .btn-main {
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      color: #fff;
+      border: none;
+      box-shadow: 0 10px 25px rgba(248,113,113,0.4);
+    }
+    .btn-main:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(248,113,113,0.6);
+    }
+    .btn-outline-soft {
+      border-color: rgba(148,163,184,0.8);
+      color: #111827;
+      background: rgba(255,255,255,0.5);
+    }
+    body.dark-mode .btn-outline-soft {
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.7);
+      border-color: rgba(148,163,184,0.9);
+    }
+    .btn-outline-soft:hover {
+      background: rgba(148,163,184,0.2);
+    }
+    .hero-image-main {
+      max-height: 420px;
+      width: 100%;
+      border-radius: 32px;
+      box-shadow: 0 18px 60px rgba(15,23,42,0.65);
+    }
+    .hero-floating-card {
+      position: absolute;
+      right: 6%;
+      bottom: 8%;
+      background: rgba(15,23,42,0.9);
+      color: #f9fafb;
+      padding: 0.75rem 1.2rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 16px 40px rgba(15,23,42,0.8);
+    }
+    .hero-floating-card i {
+      color: #facc15;
+    }
+
+    /* Decorative carousel rail under hero */
+    .ride-strip {
+      margin-top: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      overflow-x: auto;
+      padding-bottom: 0.3rem;
+    }
+    .ride-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      border: 1px solid rgba(148,163,184,0.5);
+      background: rgba(255,255,255,0.6);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+    body.dark-mode .ride-pill {
+      background: rgba(15,23,42,0.8);
+      border-color: rgba(148,163,184,0.8);
+    }
+    .ride-pill i {
+      color: var(--accent-color);
+    }
+
+    /* Generic card styling */
+    .park-card {
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.12);
+      overflow: hidden;
+      height: 100%;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+    }
+    body.dark-mode .park-card {
+      background: rgba(15,23,42,0.95);
+      border-color: rgba(55,65,81,0.9);
+      box-shadow: 0 18px 60px rgba(15,23,42,0.95);
+    }
+    .park-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 22px 60px rgba(15,23,42,0.3);
+      border-color: var(--accent-color);
+    }
+
+    /* Tickets, Rides, Shows, Food etc share similar headline styles */
+    .mini-label {
+      font-size: 0.74rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #6b7280;
+    }
+    body.dark-mode .mini-label {
+      color: #9ca3af;
+    }
+    .card-title {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+    }
+
+    /* Simple parallax style banner (fixed image) */
+    .parallax-banner {
+      min-height: 260px;
+      border-radius: 30px;
+      background-attachment: fixed;
+      background-position: center;
+      background-size: cover;
+      position: relative;
+      overflow: hidden;
+    }
+    .parallax-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(15,23,42,0.88), rgba(8,47,73,0.9));
+    }
+
+    /* Timeline section (Events/Schedule) */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+    .timeline::before {
+      content: "";
+      position: absolute;
+      left: 10px;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: linear-gradient(to bottom, var(--accent-color), var(--primary-color));
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.6rem;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -1px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 3px solid #0f172a;
+      background: #fff;
+      box-shadow: 0 0 0 4px rgba(56,189,248,0.25);
+    }
+    body.dark-mode .timeline-dot {
+      border-color: #f9fafb;
+      background: #0f172a;
+    }
+
+    /* Gallery */
+    .gallery-img {
+      height: 220px;
+      width: 100%;
+      border-radius: 18px;
+      transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+      box-shadow: 0 16px 50px rgba(15,23,42,0.5);
+    }
+    .gallery-img:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 70px rgba(15,23,42,0.7);
+    }
+
+    /* FAQ */
+    .accordion-button {
+      border-radius: 16px !important;
+      font-weight: 500;
+    }
+    .accordion-item {
+      border-radius: 16px;
+      overflow: hidden;
+      border: none;
+      box-shadow: 0 10px 30px rgba(15,23,42,0.12);
+      margin-bottom: 1rem;
+    }
+
+    /* Contact / Booking */
+    .glass-card {
+      border-radius: 26px;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 22px 60px rgba(15,23,42,0.22);
+      border: 1px solid rgba(148,163,184,0.6);
+      padding: 32px;
+    }
+    body.dark-mode .glass-card {
+      background: rgba(15,23,42,0.96);
+      border-color: rgba(55,65,81,0.9);
+      box-shadow: 0 26px 80px rgba(15,23,42,1);
+    }
+    .form-control, .form-select {
+      border-radius: 999px;
+      padding: 0.65rem 1rem;
+      border-color: rgba(148,163,184,0.6);
+    }
+    .form-control:focus, .form-select:focus {
+      box-shadow: 0 0 0 3px rgba(56,189,248,0.3);
+      border-color: var(--accent-color);
+    }
+    textarea.form-control {
+      border-radius: 18px;
+    }
+
+    /* Footer */
+    footer {
+      background: #020617;
+      color: #9ca3af;
+      padding-top: 50px;
+      padding-bottom: 20px;
+      border-top: 1px solid rgba(148,163,184,0.3);
+    }
+    .footer-title {
+      font-family: 'Fredoka', cursive;
+      font-weight: 600;
+    }
+    .footer-divider {
+      height: 100%;
+      width: 2px;
+      background: rgba(148,163,184,0.5);
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(148,163,184,0.3);
+      margin-top: 24px;
+      padding-top: 14px;
+      font-size: 0.85rem;
+    }
+    .social-link {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      margin-right: 8px;
+      transition: all var(--transition-fast);
+    }
+    .social-link:hover {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      transform: translateY(-3px) rotate(-5deg);
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 991.98px) {
+      .hero-title {
+        font-size: 2.4rem;
+      }
+      .hero-wrapper {
+        padding: 30px 22px;
+      }
+      .hero-floating-card {
+        position: static;
+        margin-top: 1.2rem;
+      }
+    }
+    @media (max-width: 767.98px) {
+      section {
+        padding: 70px 0;
+      }
+      .hero-title {
+        font-size: 2.1rem;
+      }
+      .hero-text {
+        font-size: 0.98rem;
+      }
+      .footer-divider {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#hero">
+        🎡 WonderWorld
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link active" href="#hero">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#tickets">Tickets</a></li>
+          <li class="nav-item"><a class="nav-link" href="#rides">Rides</a></li>
+          <li class="nav-item"><a class="nav-link" href="#shows">Shows</a></li>
+          <li class="nav-item"><a class="nav-link" href="#food">Food</a></li>
+          <li class="nav-item"><a class="nav-link" href="#gallery">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="#plan">Plan</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+          <li class="nav-item ms-lg-3">
+            <div class="form-check form-switch theme-toggle">
+              <input class="form-check-input" type="checkbox" id="modeSwitch">
+              <label class="form-check-label" for="modeSwitch">Dark Mode</label>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO (1) -->
+  <section id="hero">
+    <div class="container">
+      <div class="hero-wrapper">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-6">
+            <span class="hero-badge">
+              <i class="fa-solid fa-sparkles"></i> Welcome to the thrill zone
+            </span>
+            <h1 class="hero-title mt-3">
+              Experience the <span class="hero-highlight">Magic</span> of
+              WonderWorld Amusement Park
+            </h1>
+            <p class="hero-text">
+              A full–day escape into a world of roller coasters, water rides, live shows, and unforgettable food.
+              Designed to give families, friends, and thrill‑seekers pure joy from sunrise to fireworks.
+            </p>
+            <div class="hero-cta mt-3 d-flex flex-wrap gap-3">
+              <a href="#tickets" class="btn btn-main">
+                Buy Tickets
+              </a>
+              <a href="#rides" class="btn btn-outline-soft">
+                Explore Rides
+              </a>
+            </div>
+            <div class="ride-strip mt-4">
+              <span class="ride-pill"><i class="fa-solid fa-roller-coaster"></i> Hyper Coaster</span>
+              <span class="ride-pill"><i class="fa-solid fa-water-ladder"></i> Splash River</span>
+              <span class="ride-pill"><i class="fa-solid fa-star"></i> Night Parade</span>
+              <span class="ride-pill"><i class="fa-solid fa-fireworks"></i> Firework Finale</span>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <img src="https://images.pexels.com/photos/21014/pexels-photo.jpg" alt="Amusement park hero" class="hero-image-main img-fluid mb-3 mb-lg-0" />
+            <div class="hero-floating-card">
+              <i class="fa-solid fa-ticket"></i>
+              <div>
+                <strong>Over 25 attractions</strong><br/>
+                One ticket, endless memories.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT PARK (2) -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title">Our Park Story</h2>
+      <p class="section-subtitle">
+        WonderWorld is a vibrant amusement universe built around fantasy lands, futuristic rides, and immersive experiences, all carefully crafted for maximum safety and non-stop fun.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <img src="https://images.pexels.com/photos/2747443/pexels-photo-2747443.jpeg" class="img-fluid" alt="Amusement park overview" />
+        </div>
+        <div class="col-md-6">
+          <div class="park-card p-4 h-100">
+            <span class="mini-label">Why visit WonderWorld?</span>
+            <h3 class="card-title mt-2">More than just rides.</h3>
+            <p class="mt-3">
+              Our park blends story-driven lands, interactive shows, character parades, and themed dining, creating a complete day of adventure and delight for every age group.
+            </p>
+            <ul class="mt-2">
+              <li>5 themed zones: Fantasy Forest, Space Port, Pirate Harbor, Dino Valley, and Candy City</li>
+              <li>Dedicated kid-friendly areas with soft rides and safe play spaces</li>
+              <li>On-site medical, security, and guest care teams always available</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TICKETS & OFFERS (3) -->
+  <section id="tickets">
+    <div class="container">
+      <h2 class="section-title">Tickets & Passes</h2>
+      <p class="section-subtitle">
+        Choose the perfect ticket type for your visit—day passes, family bundles, and annual memberships designed to give you maximum value.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <span class="mini-label">Best for a day</span>
+            <h4 class="card-title mt-2">Single Day Pass</h4>
+            <p class="mt-3">Access to all major rides, shows, and attractions for one full day.</p>
+            <h3 class="mt-2 mb-3">$49</h3>
+            <a href="#booking" class="btn btn-main w-100">Book Now</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <span class="mini-label">Most popular</span>
+            <h4 class="card-title mt-2">Family Bundle</h4>
+            <p class="mt-3">Tickets for 4 visitors with priority entry and reserved show seating.</p>
+            <h3 class="mt-2 mb-3">$169</h3>
+            <a href="#booking" class="btn btn-main w-100">Grab Bundle</a>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <span class="mini-label">Unlimited fun</span>
+            <h4 class="card-title mt-2">Annual Pass</h4>
+            <p class="mt-3">Visit all year long, plus exclusive discounts on food and merchandise.</p>
+            <h3 class="mt-2 mb-3">$299</h3>
+            <a href="#booking" class="btn btn-main w-100">Become a Member</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RIDES HIGHLIGHTS (4) -->
+  <section id="rides">
+    <div class="container">
+      <h2 class="section-title">Signature Rides</h2>
+      <p class="section-subtitle">
+        From heart-racing roller coasters to gentle family rides, every attraction is engineered for excitement and safety.
+      </p>
+      <div class="row g-4">
+        <div class="col-lg-3 col-sm-6">
+          <div class="park-card">
+            <img src="https://images.pexels.com/photos/21014/pexels-photo.jpg" class="w-100" alt="Roller coaster" />
+            <div class="p-3">
+              <h5 class="card-title">Galaxy Coaster</h5>
+              <p>High-speed loops, inversions, and cosmic visuals for true thrill seekers.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="park-card">
+            <img src="https://images.pexels.com/photos/1292043/pexels-photo-1292043.jpeg" class="w-100" alt="Ferris wheel" />
+            <div class="p-3">
+              <h5 class="card-title">SkyWheel 360</h5>
+              <p>Panoramic views of the entire park with comfortable, enclosed cabins.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="park-card">
+            <img src="https://images.pexels.com/photos/136413/pexels-photo-136413.jpeg" class="w-100" alt="Carousel" />
+            <div class="p-3">
+              <h5 class="card-title">Enchanted Carousel</h5>
+              <p>Classic horses, fairy-tale music, and lights perfect for younger guests.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+          <div class="park-card">
+            <img src="https://images.pexels.com/photos/533325/pexels-photo-533325.jpeg" class="w-100" alt="Water ride" />
+            <div class="p-3">
+              <h5 class="card-title">Splash Canyon</h5>
+              <p>Water rapids that cool you down with every twist, drop, and wave.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWS & ENTERTAINMENT (5) -->
+  <section id="shows">
+    <div class="container">
+      <h2 class="section-title">Shows & Entertainment</h2>
+      <p class="section-subtitle">
+        Live parades, stunt performances, and musical spectacles fill your day with unforgettable moments beyond the rides.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="park-card p-4 h-100">
+            <h4 class="card-title">Daily Show Schedule</h4>
+            <div class="timeline mt-3">
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h6>10:00 AM – Opening Ceremony</h6>
+                <p>Character welcome show at Fantasy Plaza.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h6>1:00 PM – Aqua Stunt Spectacular</h6>
+                <p>High‑energy water stunts at Splash Arena.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h6>6:30 PM – Magic Lantern Parade</h6>
+                <p>Illuminated floats, dancers, and live music through main street.</p>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <h6>9:00 PM – Fireworks Finale</h6>
+                <p>Sky‑filling fireworks choreographed to a cinematic soundtrack.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img src="https://images.pexels.com/photos/176669/pexels-photo-176669.jpeg" class="img-fluid h-100" alt="Night show" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOD & DINING (6) -->
+  <section id="food">
+    <div class="container">
+      <h2 class="section-title">Food & Treats</h2>
+      <p class="section-subtitle">
+        Refuel all day with themed restaurants, sweet carts, and quick bites—vegetarian, vegan, and gluten‑free options included.
+      </p>
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="park-card p-3">
+            <img src="https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg" class="w-100" alt="Burgers and fries" />
+            <div class="p-2">
+              <h5 class="card-title mt-2">Galaxy Grill</h5>
+              <p>Classic burgers, fries, and shakes with a futuristic spaceship interior.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6">
+          <div class="park-card p-3">
+            <img src="https://images.pexels.com/photos/3026808/pexels-photo-3026808.jpeg" class="w-100" alt="Ice cream" />
+            <div class="p-2">
+              <h5 class="card-title mt-2">Candy Cloud Corner</h5>
+              <p>Ice cream, cotton candy, popcorn, and candy apples for your sweet tooth.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-12">
+          <div class="park-card p-3">
+            <img src="https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg" class="w-100" alt="Healthy food" />
+            <div class="p-2">
+              <h5 class="card-title mt-2">Green Garden Café</h5>
+              <p>Fresh salads, wraps, and bowls for guests wanting lighter options.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARALLAX PROMO (7) -->
+  <section id="promo">
+    <div class="container">
+      <div class="parallax-banner" style="background-image:url('https://images.pexels.com/photos/66143/pexels-photo-66143.jpeg');">
+        <div class="parallax-overlay d-flex align-items-center">
+          <div class="text-center w-100 text-light">
+            <h2 class="section-title text-light mb-3">Summer Lights Festival</h2>
+            <p class="mb-3">
+              Every Saturday night this season, WonderWorld transforms into a neon universe of lasers, music, and extended ride hours.
+            </p>
+            <a href="#tickets" class="btn btn-main">Festival Tickets</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARK MAP / ZONES (8) -->
+  <section id="map">
+    <div class="container">
+      <h2 class="section-title">Park Zones</h2>
+      <p class="section-subtitle">
+        Navigate easily between themed lands, each with its own atmosphere, rides, food, and shows.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <img src="https://images.pexels.com/photos/245029/pexels-photo-245029.jpeg" class="img-fluid" alt="Map view" />
+        </div>
+        <div class="col-md-6">
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="park-card p-3">
+                <h6 class="card-title">Fantasy Forest</h6>
+                <p>Fairy‑tale paths, woodland rides, and gentle attractions.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="park-card p-3">
+                <h6 class="card-title">Space Port</h6>
+                <p>Futuristic coasters, VR missions, and cosmic experiences.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="park-card p-3">
+                <h6 class="card-title">Pirate Harbor</h6>
+                <p>Ship battles, treasure hunts, and interactive water fun.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="park-card p-3">
+                <h6 class="card-title">Dino Valley</h6>
+                <p>Prehistoric jungle rides, fossils, and roaring dinosaurs.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY & GUIDELINES (9) -->
+  <section id="safety">
+    <div class="container">
+      <h2 class="section-title">Safety First</h2>
+      <p class="section-subtitle">
+        Rigorous inspections, trained operators, and clear guidelines ensure a safe, worry‑free visit for every guest.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <i class="fa-solid fa-shield-heart fa-2x mb-3 text-danger"></i>
+            <h5 class="card-title mb-2">Daily Checks</h5>
+            <p>All rides undergo multi‑point checks before gates open, every single day.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <i class="fa-solid fa-user-nurse fa-2x mb-3 text-success"></i>
+            <h5 class="card-title mb-2">On‑site Clinics</h5>
+            <p>Medical teams stationed around the park for quick, professional support.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <i class="fa-solid fa-helmet-safety fa-2x mb-3 text-warning"></i>
+            <h5 class="card-title mb-2">Clear Rules</h5>
+            <p>Height markers, safety signs, and staff guidance keep you informed.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY (10) -->
+  <section id="gallery">
+    <div class="container">
+      <h2 class="section-title">Park Moments</h2>
+      <p class="section-subtitle">
+        Take a visual tour of the atmosphere—rides in motion, colorful lights, and smiling faces everywhere you look.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <img src="https://images.pexels.com/photos/207896/pexels-photo-207896.jpeg" class="gallery-img" alt="Night ferris wheel" />
+        </div>
+        <div class="col-md-4">
+          <img src="https://images.pexels.com/photos/1293263/pexels-photo-1293263.jpeg" class="gallery-img" alt="Park lights" />
+        </div>
+        <div class="col-md-4">
+          <img src="https://images.pexels.com/photos/139764/pexels-photo-139764.jpeg" class="gallery-img" alt="Roller coaster at night" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS & SEASONS (11) -->
+  <section id="events">
+    <div class="container">
+      <h2 class="section-title">Seasonal Events</h2>
+      <p class="section-subtitle">
+        Special events throughout the year keep the park fresh, exciting, and worth returning to again and again.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">Spring Bloom Parade</h5>
+            <p>Flower‑themed floats and characters celebrate the start of park season.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">Summer Lights Festival</h5>
+            <p>Extended hours, neon decor, and DJ nights every weekend.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">Spooky October Nights</h5>
+            <p>Haunted mazes and themed shows for brave visitors.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (12) -->
+  <section id="testimonials">
+    <div class="container">
+      <h2 class="section-title">Guest Voices</h2>
+      <p class="section-subtitle">
+        Thousands of visitors rate WonderWorld as their favorite day trip for families, friends, and school outings.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <p>"Every ride feels safe, exciting, and well‑run. My kids still talk about the parade!"</p>
+            <h6 class="mt-3 mb-0">— Ayesha, Parent</h6>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <p>"The food, shows, and rides are all amazing. Best group trip we’ve ever organized."</p>
+            <h6 class="mt-3 mb-0">— Daniyal, Teacher</h6>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <p>"Annual pass holder for 3 years. The seasonal events make every visit feel brand new."</p>
+            <h6 class="mt-3 mb-0">— Zain, Student</h6>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLAN YOUR VISIT (13) -->
+  <section id="plan">
+    <div class="container">
+      <h2 class="section-title">Plan Your Visit</h2>
+      <p class="section-subtitle">
+        A smooth plan means more time for fun. Use these quick tips to organize your perfect WonderWorld day.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">Best Time to Arrive</h5>
+            <p>Arrive 30 minutes before opening to enjoy shorter lines on popular rides.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">What to Bring</h5>
+            <p>Light clothing, sunscreen, and a refillable bottle keep you comfortable all day.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4">
+            <h5 class="card-title">Download Our Map</h5>
+            <p>Use the interactive map to navigate rides, food, restrooms, and clinics.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCHOOL & CORPORATE GROUPS (14) -->
+  <section id="groups">
+    <div class="container">
+      <h2 class="section-title">Groups & Events</h2>
+      <p class="section-subtitle">
+        Tailored packages for school trips, corporate outings, and large celebrations with dedicated coordinators.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <img src="https://images.pexels.com/photos/176668/pexels-photo-176668.jpeg" class="img-fluid" alt="Group enjoying park" />
+        </div>
+        <div class="col-md-6">
+          <div class="park-card p-4 h-100">
+            <h4 class="card-title">Make It a Group Adventure</h4>
+            <ul class="mt-3">
+              <li>Discounted tickets for groups of 15+ guests</li>
+              <li>Reserved meeting points and meal times</li>
+              <li>Custom itineraries built around your schedule</li>
+            </ul>
+            <a href="#contact" class="btn btn-main mt-3">Inquire for Groups</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MERCH & SOUVENIRS (15) -->
+  <section id="merch">
+    <div class="container">
+      <h2 class="section-title">Souvenir Shop</h2>
+      <p class="section-subtitle">
+        Take the magic home with park‑exclusive merchandise, character plushies, and collectible items.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <h5 class="card-title">Character Plushies</h5>
+            <p>Snuggly versions of our mascots from every park zone.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <h5 class="card-title">Apparel & Caps</h5>
+            <p>Theme shirts, hoodies, and hats for every age.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="park-card p-4 text-center">
+            <h5 class="card-title">Limited Pins & Mugs</h5>
+            <p>Collectible items that mark each season and event.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ (16) -->
+  <section id="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">
+        Quick answers about tickets, parking, safety, and more to help you prepare.
+      </p>
+      <div class="accordion" id="faqAccordion">
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faq1">
+            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse1">
+              Can I bring outside food?
+            </button>
+          </h2>
+          <div id="faqCollapse1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              Light snacks and water are allowed, but full meals and large coolers must be purchased or stored as per park policy.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="faq2">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faqCollapse2">
+              Is parking included?
+            </button>
+          </h2>
+          <div id="faqCollapse2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body">
+              General parking is available near the main gate with discounted rates for annual pass holders.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT / BOOKING FORM (17) -->
+  <section id="booking">
+    <div class="container">
+      <h2 class="section-title">Fast Booking</h2>
+      <p class="section-subtitle">
+        Reserve your visit in advance so you can go straight to the fun the moment you arrive.
+      </p>
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="glass-card">
+            <form>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" class="form-control" placeholder="Your name" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Email</label>
+                  <input type="email" class="form-control" placeholder="you@example.com" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Visit Date</label>
+                  <input type="date" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Guests</label>
+                  <input type="number" class="form-control" min="1" value="2" required>
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">Ticket Type</label>
+                  <select class="form-select">
+                    <option>Single Day Pass</option>
+                    <option>Family Bundle</option>
+                    <option>Annual Pass</option>
+                    <option>Group Package</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Special Requests</label>
+                  <textarea class="form-control" rows="3" placeholder="Wheelchair access, birthday celebrations, dietary needs…"></textarea>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-main mt-3 w-100">Confirm Booking</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT INFO (18) -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title">Contact & Location</h2>
+      <p class="section-subtitle">
+        Reach out with questions, feedback, or special event requests—our team is happy to help.
+      </p>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="park-card p-4 h-100">
+            <h5 class="card-title">Get in Touch</h5>
+            <p>Email: hello@wonderworldpark.com<br/>Phone: +92-300-0000000</p>
+            <p>Address: WonderWorld Amusement Park, Main Highway, Your City.</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <img src="https://images.pexels.com/photos/1334603/pexels-photo-1334603.jpeg" class="img-fluid" alt="Park location" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER (19, includes 3 columns) -->
+  <footer>
+    <div class="container">
+      <div class="row align-items-start gy-4">
+        <!-- Column 1: About/Services -->
+        <div class="col-12 col-md-4">
+          <h5 class="footer-title text-light">WonderWorld Park</h5>
+          <hr class="border-secondary w-50 my-2">
+          <p class="mb-1">A complete amusement experience with thrilling rides, curated food, and immersive shows.</p>
+          <p class="mb-0">Designed to deliver safe, memorable fun for families, students, and adventure seekers.</p>
+        </div>
+
+        <!-- Vertical divider left -->
+        <div class="col-md-1 d-none d-md-flex justify-content-center">
+          <div class="footer-divider"></div>
+        </div>
+
+        <!-- Column 2: Social Icons -->
+        <div class="col-12 col-md-2 text-center">
+          <h6 class="text-light mb-3">Follow Us</h6>
+          <div>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-x-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+        </div>
+
+        <!-- Vertical divider right -->
+        <div class="col-md-1 d-none d-md-flex justify-content-center">
+          <div class="footer-divider"></div>
+        </div>
+
+        <!-- Column 3: Contact -->
+        <div class="col-12 col-md-4 text-md-end">
+          <h6 class="text-light mb-3">Reach Us</h6>
+          <p class="mb-1"><i class="fa-solid fa-location-dot me-2"></i>Main Highway, Your City</p>
+          <p class="mb-0"><i class="fa-solid fa-envelope me-2"></i>hello@wonderworldpark.com</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom text-center mt-4">
+        <span>© 2025 WonderWorld Amusement Park. All Rights Reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- jQuery for Dark/Light Mode Toggle -->
+  <script>
+    $(document).ready(function () {
+      // Load saved mode
+      const savedMode = localStorage.getItem('wwTheme');
+      if (savedMode === 'dark') {
+        $('body').addClass('dark-mode');
+        $('#modeSwitch').prop('checked', true);
+        $('.theme-toggle label').text('Light Mode');
+      }
+
+      $('#modeSwitch').on('change', function () {
+        if ($(this).is(':checked')) {
+          $('body').addClass('dark-mode');
+          localStorage.setItem('wwTheme', 'dark');
+          $('.theme-toggle label').text('Light Mode');
+        } else {
+          $('body').removeClass('dark-mode');
+          localStorage.setItem('wwTheme', 'light');
+          $('.theme-toggle label').text('Dark Mode');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
